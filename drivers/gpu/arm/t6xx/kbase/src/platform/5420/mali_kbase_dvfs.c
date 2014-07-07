@@ -122,12 +122,8 @@ typedef struct _mali_dvfs_info{
 } mali_dvfs_info;
 
 static mali_dvfs_info mali_dvfs_infotbl[] = {
-#ifndef CONFIG_SUPPORT_WQXGA
 	{812500, 100, 0, 90, 0, 160000, 83000, 250000},
 	{812500, 177, 53, 90, 0, 160000, 83000, 250000},
-#else
-	{812500, 177, 0, 90, 0, 160000, 83000, 250000},
-#endif /* CONFIG_SUPPORT_WQXGA */
 	{862500, 266, 60, 90, 0, 400000, 222000, 250000},
 	{912500, 350, 70, 90, 0, 667000, 333000, 250000},
 	{962500, 420, 78, 99, 0, 800000, 400000, 250000},
@@ -464,13 +460,14 @@ int kbase_platform_dvfs_enable(bool enable, int freq)
 		dvfs_status->step = kbase_platform_dvfs_get_level(freq);
 		spin_unlock_irqrestore(&mali_dvfs_spinlock, flags);
 
+#ifdef CONFIG_MALI_T6XX_FREQ_LOCK
 		if (freq == MALI_DVFS_START_FREQ) {
 			if (dvfs_status->min_lock != -1)
 				dvfs_status->step = MAX(dvfs_status->min_lock, dvfs_status->step);
 			if (dvfs_status->max_lock != -1)
 				dvfs_status->step = MIN(dvfs_status->max_lock, dvfs_status->step);
 		}
-
+#endif
 		kbase_platform_dvfs_set_level(dvfs_status->kbdev, dvfs_status->step);
 	}
 
