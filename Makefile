@@ -1,7 +1,7 @@
 VERSION = 3
 PATCHLEVEL = 4
 SUBLEVEL = 39
-EXTRAVERSION =-SkyHigh-T700/705-Exynos-TW-v0.4
+EXTRAVERSION =-SkyHigh-T700/705-Exynos-TW-v0.5
 NAME = Saber-toothed Squirrel
 
 # *DOCUMENTATION*
